@@ -1,6 +1,6 @@
 {
   "name": "remote-git-tags",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Get tags from a remote git repo. Using only JS. No git binary required.",
   "license": "MIT",
   "repository": "sindresorhus/remote-git-tags",
