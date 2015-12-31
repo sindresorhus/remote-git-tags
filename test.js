@@ -1,11 +1,10 @@
-'use strict';
-var test = require('ava');
-var remoteGitTags = require('./');
+import test from 'ava';
+import fn from './';
 
-test(function (t) {
-	remoteGitTags('github.com/sindresorhus/playground', function (err, tags) {
-		t.assert(!err, err);
-		t.assert(tags['v0.1.0'] === '69e308412e2a5cffa692951f0274091ef23e0e32');
+test.cb(t => {
+	fn('github.com/sindresorhus/got', (err, tags) => {
+		t.ifError(err);
+		t.is(tags['v5.0.0'], '0933d0bb13f704bc9aabcc1eec7a8e33dc8aba51');
 		t.end();
 	});
 });
