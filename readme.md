@@ -2,16 +2,16 @@
 
 > Get tags from a remote git repo
 
-Like [`git ls-remote`](http://git-scm.com/docs/git-ls-remote.html), which doesn't require cloning the repo, but this is 100% JS, meaning no dependency on the git binary.
+Like [`git ls-remote`](http://git-scm.com/docs/git-ls-remote.html), which doesn't require cloning the repo, but this is 100% JavaScript, meaning no dependency on the Git binary.
 
-Really just some minor glue to [@chrisdickinson](https://github.com/chrisdickinson) awesome [work](https://github.com/search?utf8=%E2%9C%93&q=user%3Achrisdickinson+git-) on JSifying git.
+Really just some minor glue to [@chrisdickinson](https://github.com/chrisdickinson)'s awesome [work](https://github.com/search?utf8=%E2%9C%93&q=user%3Achrisdickinson+git-) on reimplementing Git in JavaScript.
 
-You probably shouldn't use this in production.
+I'm using this successfully against GitHub repos, but the underlaying modules are not that actively maintained, so I wouldn't recommend using this for production critical code.
 
 
 ## Install
 
-```sh
+```
 $ npm install --save remote-git-tags
 ```
 
@@ -19,35 +19,28 @@ $ npm install --save remote-git-tags
 ## Usage
 
 ```js
-var remoteGitTags = require('remote-git-tags');
+const remoteGitTags = require('remote-git-tags');
 
-remoteGitTags('github.com/sindresorhus/remote-git-tags', function (err, tags) {
+remoteGitTags('github.com/sindresorhus/remote-git-tags').then(tags => {
 	console.log(tags);
-	//=> { 'v1.0.0': '69e308412e2a5cffa692951f0274091ef23e0e32' }
+	//=> Map {'v1.0.0' => '69e308412e2a5cffa692951f0274091ef23e0e32'}
 });
 ```
 
 
 ## API
 
-### remoteGitTags(url, callback)
+### remoteGitTags(url)
+
+Returns a `Promise<Map>` with the Git tags as keys and their commit SHA as values.
 
 #### url
 
-*Required*  
 Type: `string`
 
-The git repo url.
-
-#### callback(err, tags)
-
-##### tags
-
-Type: `object`  
-
-Tags as keys and their commit SHA as values.
+Git repo URL.
 
 
 ## License
 
-MIT © [Sindre Sorhus](http://sindresorhus.com)
+MIT © [Sindre Sorhus](https://sindresorhus.com)

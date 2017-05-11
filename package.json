@@ -1,19 +1,19 @@
 {
   "name": "remote-git-tags",
   "version": "1.0.0",
-  "description": "Get tags from a remote git repo. Using only JS. No git binary required.",
+  "description": "Get tags from a remote Git repo. Using only JS. No Git binary required.",
   "license": "MIT",
   "repository": "sindresorhus/remote-git-tags",
   "author": {
     "name": "Sindre Sorhus",
     "email": "sindresorhus@gmail.com",
-    "url": "http://sindresorhus.com"
+    "url": "sindresorhus.com"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4"
   },
   "scripts": {
-    "test": "ava"
+    "test": "xo && ava"
   },
   "files": [
     "index.js"
@@ -25,6 +25,7 @@
     "remote",
     "repo",
     "repository",
+    "vanilla",
     "js",
     "javascript",
     "ls",
@@ -37,6 +38,7 @@
     "git-transport-protocol": "^0.1.0"
   },
   "devDependencies": {
-    "ava": "*"
+    "ava": "*",
+    "xo": "*"
   }
 }

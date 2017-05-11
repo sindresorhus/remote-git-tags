@@ -1,36 +1,37 @@
-var url = require('url');
-var net = require('net')
-var gitclient = require('git-fetch-pack');
-var transport = require('git-transport-protocol');
+'use strict';
+const url = require('url');
+const net = require('net');
+const gitclient = require('git-fetch-pack');
+const transport = require('git-transport-protocol');
 
-module.exports = function (str, cb) {
-	// fix schemeless urls
-	str = str.replace(/^(?!(?:https|git):\/\/)/, 'https://');
+module.exports = input => new Promise((resolve, reject) => {
+	// Fix schemeless urls
+	input = input.replace(/^(?!(?:https|git):\/\/)/, 'https://');
 
-	var tcp = net.connect({
-		host: url.parse(str).host,
+	const tcp = net.connect({
+		host: url.parse(input).host,
 		port: 9418
 	});
-	var client = gitclient(str);
-	var tags = {};
+	const client = gitclient(input);
+	const tags = new Map();
 
-	client.refs.on('data', function (ref) {
-		var name = ref.name;
+	client.refs.on('data', ref => {
+		const name = ref.name;
 
 		if (/^refs\/tags/.test(name)) {
-			// strip off the indicator of dereferenced tags so we can
+			// Strip off the indicator of dereferenced tags so we can
 			// override the previous entry which points at the tag hash
 			// and not the commit hash
-			tags[name.split('/')[2].replace(/\^\{\}$/, '')] = ref.hash;
+			tags.set(name.split('/')[2].replace(/\^\{\}$/, ''), ref.hash);
 		}
 	});
 
 	client
 		.pipe(transport(tcp))
-		.on('error', cb)
+		.on('error', reject)
 		.pipe(client)
-		.on('error', cb)
-		.once('end', function () {
-			cb(null, tags);
+		.on('error', reject)
+		.once('end', () => {
+			resolve(tags);
 		});
-};
+});
