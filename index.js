@@ -6,7 +6,7 @@ const transport = require('git-transport-protocol');
 
 module.exports = input => new Promise((resolve, reject) => {
 	// Fix schemeless urls
-	input = input.replace(/^(?!(?:https|git):\/\/)/, 'https://');
+	input = input.replace(/^(?!(?:https?|git):\/\/)/, 'https://');
 
 	const tcp = net.connect({
 		host: url.parse(input).host,
