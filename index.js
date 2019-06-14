@@ -9,14 +9,14 @@ module.exports = input => new Promise((resolve, reject) => {
 	input = input.replace(/^(?!(?:https|git):\/\/)/, 'https://');
 
 	const tcp = net.connect({
-		host: url.parse(input).host,
+		host: url.parse(input).host, // eslint-disable-line node/no-deprecated-api
 		port: 9418
 	});
 	const client = gitclient(input);
 	const tags = new Map();
 
 	client.refs.on('data', ref => {
-		const name = ref.name;
+		const {name} = ref;
 
 		if (/^refs\/tags/.test(name)) {
 			// Strip off the indicator of dereferenced tags so we can
