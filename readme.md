@@ -2,18 +2,14 @@
 
 > Get tags from a remote Git repo
 
-Like [`git ls-remote`](http://git-scm.com/docs/git-ls-remote.html), which doesn't require cloning the repo, but this is 100% JavaScript, meaning no dependency on the Git binary.
-
-Really just some minor glue to [@chrisdickinson](https://github.com/chrisdickinson)'s awesome [work](https://github.com/search?utf8=%E2%9C%93&q=user%3Achrisdickinson+git-) on reimplementing Git in JavaScript.
-
-I'm using this successfully against GitHub repos, but the underlaying modules are not that actively maintained, so I wouldn't recommend using this for production critical code.
-
 
 ## Install
 
 ```
 $ npm install remote-git-tags
 ```
+
+The `git` binary must be installed and in your [PATH](https://medium.com/@jalendport/what-exactly-is-your-shell-path-2f076f02deb4).
 
 
 ## Usage
@@ -30,12 +26,12 @@ const remoteGitTags = require('remote-git-tags');
 
 ## API
 
-### remoteGitTags(url)
+### remoteGitTags(repoUrl)
 
 Returns a `Promise<Map<string, string>>` with the Git tags as keys and their commit SHA as values.
 
-#### url
+#### repoUrl
 
 Type: `string`
 
-Git repo URL.
+URL to the Git repo.

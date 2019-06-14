@@ -31,10 +31,6 @@
 		"sha",
 		"url"
 	],
-	"dependencies": {
-		"git-fetch-pack": "^0.1.1",
-		"git-transport-protocol": "^0.1.0"
-	},
 	"devDependencies": {
 		"ava": "^2.1.0",
 		"xo": "^0.24.0"

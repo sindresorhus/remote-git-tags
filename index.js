@@ -1,37 +1,23 @@
 'use strict';
-const url = require('url');
-const net = require('net');
-const gitclient = require('git-fetch-pack');
-const transport = require('git-transport-protocol');
+const {promisify} = require('util');
+const childProcess = require('child_process');
 
-module.exports = input => new Promise((resolve, reject) => {
-	// Fix schemeless urls
-	input = input.replace(/^(?!(?:https|git):\/\/)/, 'https://');
+const execFile = promisify(childProcess.execFile);
 
-	const tcp = net.connect({
-		host: url.parse(input).host, // eslint-disable-line node/no-deprecated-api
-		port: 9418
-	});
-	const client = gitclient(input);
+module.exports = async repoUrl => {
+	const {stdout} = await execFile('git', ['ls-remote', '--tags', repoUrl]);
 	const tags = new Map();
 
-	client.refs.on('data', ref => {
-		const {name} = ref;
+	for (const line of stdout.trim().split('\n')) {
+		const [hash, tagReference] = line.split('\t');
 
-		if (/^refs\/tags/.test(name)) {
-			// Strip off the indicator of dereferenced tags so we can
-			// override the previous entry which points at the tag hash
-			// and not the commit hash
-			tags.set(name.split('/')[2].replace(/\^\{\}$/, ''), ref.hash);
-		}
-	});
+		// Strip off the indicator of dereferenced tags so we can override the
+		// previous entry which points at the tag hash and not the commit hash
+		// `refs/tags/v9.6.0^{}` → `v9.6.0`
+		const tagName = tagReference.replace(/^refs\/tags\//, '').replace(/\^\{\}$/, '');
 
-	client
-		.pipe(transport(tcp))
-		.on('error', reject)
-		.pipe(client)
-		.on('error', reject)
-		.once('end', () => {
-			resolve(tags);
-		});
-});
+		tags.set(tagName, hash);
+	}
+
+	return tags;
+};
