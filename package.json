@@ -4,7 +4,6 @@
 	"description": "Get tags from a remote Git repo",
 	"license": "MIT",
 	"repository": "sindresorhus/remote-git-tags",
-	"types": "./index.d.ts",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
