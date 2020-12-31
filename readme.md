@@ -1,4 +1,4 @@
-# remote-git-tags [![Build Status](https://travis-ci.org/sindresorhus/remote-git-tags.svg?branch=master)](https://travis-ci.org/sindresorhus/remote-git-tags)
+# remote-git-tags
 
 > Get tags from a remote Git repo
 
