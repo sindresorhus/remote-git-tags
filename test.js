@@ -1,5 +1,5 @@
 import test from 'ava';
-import remoteGitTags from '.';
+import remoteGitTags from './index.js';
 
 test('main', async t => {
 	const tags = await remoteGitTags('https://github.com/sindresorhus/got');
